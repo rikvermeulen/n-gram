@@ -1,0 +1,29 @@
+# Logbestanden
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory voor build output
+build
+
+# Dependencies
+node_modules
+
+# IDE / editors
+.vscode
+.idea
+*.swp
+*.swo
+*.swn
+*.bak
+*.orig
+
+# OS-gerelateerde bestanden
+.DS_Store
+Thumbs.db
