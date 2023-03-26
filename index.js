@@ -1,5 +1,5 @@
-const generate = require("./src/bigrams");
-const ngram = require("./src/ngram");
+const generate = require("./src/ngrams");
+const ngram = require("./src/prediction");
 
 (async () => {
   // const bigram = await bigrams.generate();
@@ -17,7 +17,7 @@ const ngram = require("./src/ngram");
     ngram.randomNextWord("sonic", bigrams)
   );
 
-  const sentenceTwo = await ngram.generateSentence("sonic", 20, bigrams);
+  const sentenceTwo = await ngram.generateSentence("sonic", 10, bigrams);
   console.log("Generated sentence starting with 'sonic':", sentenceTwo);
 
   // Test the functions from bigrams with 3-gram
@@ -30,6 +30,6 @@ const ngram = require("./src/ngram");
     ngram.randomNextWord("sonic", trigrams)
   );
 
-  const sentenceThree = await ngram.generateSentence("sonic", 20, trigrams);
+  const sentenceThree = await ngram.generateSentence("sonic", 10, trigrams);
   console.log("Generated sentence starting with 'sonic':", sentenceThree);
 })();
