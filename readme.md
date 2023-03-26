@@ -1,19 +1,19 @@
 # N-gram Generator
 
-Dit project bevat een eenvoudige n-gram generator die een gegeven tekst analyseert en bepaalt welke woorden vaak na elkaar voorkomen. Dit wordt bereikt met behulp van bigrams (n-grams van lengte 2).
+This project contains a simple n-gram generator that analyzes a given text and determines which words often occur consecutively. This is achieved using bigrams (n-grams of length 2).
 
-## Functies
+## Functions
 
-De n-gram generator biedt de volgende functies:
+The n-gram generator provides the following functions:
 
-- `generateBigrams(text)`: Genereert bigrams uit de gegeven tekst.
-- `mostLikelyNextWord(word)`: Geeft het meest waarschijnlijke volgende woord voor een gegeven woord op basis van de bigram-analyse.
-- `randomNextWord(word)`: Geeft een willekeurig volgend woord voor een gegeven woord, rekening houdend met de kansen uit de bigram-analyse.
-- `generateSentence(startWord)`: Genereert een zin die begint met het gegeven startwoord, met behulp van de n-gram analyse.
+- `generateBigrams(text)`: Generates bigrams from the given text.
+- `mostLikelyNextWord(word)`: Returns the most likely next word for a given word based on the bigram analysis.
+- `randomNextWord(word)`: Returns a random next word for a given word, taking into account the probabilities from the bigram analysis.
+- `generateSentence(startWord)`: Generates a sentence starting with the given start word, using the n-gram analysis.
 
-## Gebruik
+## Usage
 
-Om de n-gram generator te gebruiken, importeer je de module en gebruik je de geëxporteerde functies:
+To use the n-gram generator, import the module and use the exported functions:
 
 ```javascript
 const ngram = require("./ngram");
@@ -31,10 +31,10 @@ const sentence = ngram.generateSentence("the");
 console.log('Generated sentence starting with "the":', sentence);
 ```
 
-# Gegevensbronnen
+## Data source
 
-Dit project kan werken met verschillende gegevensbronnen, zoals lokale tekstbestanden, CSV-bestanden en API's. Zorg ervoor dat je de juiste functies implementeert om de gegevensbron van je keuze te verwerken.
+This project can work with various data sources, such as local text files, CSV files, and APIs. Make sure to implement the appropriate functions to process the data source of your choice.
 
-# Licentie
+# License
 
-Dit project valt onder de MIT-licentie. Zie het LICENSE-bestand voor meer informatie.
+This project is licensed under the MIT License. See the LICENSE file for more information.
