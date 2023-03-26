@@ -1,4 +1,4 @@
-const bigrams = require("./src/generateBigrams");
+const bigrams = require("./src/bigrams");
 const ngram = require("./src/ngram");
 
 (async () => {
