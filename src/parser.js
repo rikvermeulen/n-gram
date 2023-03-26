@@ -4,6 +4,7 @@ const Papa = require("papaparse");
 // Leest een CSV-bestand en geeft de data terug als een array van objecten
 function readCSVFile(filePath) {
   return new Promise((resolve, reject) => {
+    // Lees het CSV-bestand
     fs.readFile(filePath, "utf8", (error, data) => {
       Papa.parse(data, {
         header: true,
