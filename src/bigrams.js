@@ -1,6 +1,6 @@
 const parser = require("./parser");
 
-async function generateBigrams() {
+async function generateNGrams(n) {
   let allText = "";
 
   // Lees het CSV-bestand
@@ -20,18 +20,18 @@ async function generateBigrams() {
   // Split de tekst op spaties
   const words = await text.split(/\s+/);
 
-  const bigrams = {};
+  const ngrams = {};
 
   // Loop door alle woorden en maak bigrams
   for (let i = 0; i < words.length - 1; i++) {
     // Voeg de twee woorden samen met een spatie
-    const bigram = words[i] + " " + words[i + 1];
+    const gram = words.slice(i, i + n).join(" ");
 
     // Tel het aantal keer dat een bigram voorkomt
-    bigrams[bigram] = (bigrams[bigram] || 0) + 1;
+    ngrams[gram] = (ngrams[gram] || 0) + 1;
   }
 
-  return bigrams;
+  return ngrams;
 }
 
-exports.generate = generateBigrams;
+exports.ngrams = generateNGrams;

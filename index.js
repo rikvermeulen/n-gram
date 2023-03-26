@@ -1,16 +1,35 @@
-const bigrams = require("./src/bigrams");
+const generate = require("./src/bigrams");
 const ngram = require("./src/ngram");
 
 (async () => {
-  const bigram = await bigrams.generate();
+  // const bigram = await bigrams.generate();
 
-  // Test the functions
-  const likelyWord = await ngram.mostLikelyNextWord("the", bigram);
-  console.log("Most likely next word for 'the':", likelyWord);
+  const bigrams = await generate.ngrams(2);
+  const trigrams = await generate.ngrams(3);
 
-  const randomWord = await ngram.randomNextWord("the", bigram);
-  console.log("Random next word for 'the':", randomWord);
+  // Test the functions from bigrams with 2-gram
+  console.log(
+    "Most likely next word for 'the':",
+    ngram.mostLikelyNextWord("the", bigrams)
+  );
+  console.log(
+    "Random next word for 'the':",
+    ngram.randomNextWord("the", bigrams)
+  );
 
-  const sentence = await ngram.generateSentence("the", 10, bigram);
-  console.log("Generated sentence starting with 'the':", sentence);
+  const sentenceTwo = await ngram.generateSentence("the", 10, bigrams);
+  console.log("Generated sentence starting with 'the':", sentenceTwo);
+
+  // Test the functions from bigrams with 3-gram
+  console.log(
+    "Most likely next word for 'the':",
+    ngram.mostLikelyNextWord("the", trigrams)
+  );
+  console.log(
+    "Random next word for 'the':",
+    ngram.randomNextWord("the", trigrams)
+  );
+
+  const sentenceThree = await ngram.generateSentence("the", 10, trigrams);
+  console.log("Generated sentence starting with 'the':", sentenceThree);
 })();
