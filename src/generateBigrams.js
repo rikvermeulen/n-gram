@@ -4,7 +4,7 @@ async function generateBigrams() {
   let allText = "";
 
   // Lees het CSV-bestand
-  const csvData = await parser.readCSVFile("./titles.csv");
+  const csvData = await parser.readCSVFile("./data/titles.csv");
 
   // Maak een lange string van alle titels
   for (const row of csvData) {
