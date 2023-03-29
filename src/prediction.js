@@ -38,29 +38,29 @@ function mostLikelyNextWord(word, ngrams, maxRepetition = 2) {
 async function randomNextWord(word, ngrams) {
   const potentialWords = [];
 
-  // Get the last word of the given word
+  // krijgt het laatste woord van de gegeven woorden
   const lastWord = word.split(" ").slice(-1).pop();
 
-  // Loop through all n-grams and check if the first word(s) match the given ngram
+  // Loop door alle ngrams en check of het laatste woord overeenkomt met het eerste woord van de ngram
   for (const ngramKey in ngrams) {
     const words = ngramKey.split(" ");
 
-    // Get the number of words in the ngram
+    // krijgt het aantal woorden in de ngram
     const n = words.length;
 
-    // Check if the first n words match the given ngram
+    // Controleert of het laatste woord van de gegeven zin overeenkomt met het eerste woord van de ngram
     if (ngramKey.startsWith(lastWord)) {
-      // Join the remaining words to get the next word(s)
-      const nextWord = words.slice(1, n).join(" ");
+      // krijgt het volgende woord
+      const nextWords = words.slice(1, n).join(" ");
 
-      // Add the next word(s) to the array multiple times, depending on the frequency in the corpus
+      // voegt het woord toe aan de array met mogelijke woorden
       for (let i = 0; i < ngrams[ngramKey]; i++) {
-        potentialWords.push(nextWord);
+        potentialWords.push(nextWords);
       }
     }
   }
 
-  // Choose a random word from the array and return it
+  // return een willekeurig woord uit de array met mogelijke woorden
   return potentialWords.length > 0
     ? potentialWords[Math.floor(Math.random() * potentialWords.length)]
     : null;
