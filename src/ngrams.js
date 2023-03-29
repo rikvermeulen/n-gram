@@ -14,13 +14,13 @@ async function generateNGrams(n) {
   }
 
   // Verwijder alle leestekens, cijfers en zet alles om naar kleine letters
-  const text = await allText
+  const text = allText
     .replace(/[^\w\s]/g, "") // Verwijder leestekens
     .replace(/\d+/g, "") // Verwijder cijfers
     .toLowerCase(); // Zet alles om naar kleine letters
 
   // Split de tekst op spaties
-  const words = await text.split(/\s+/);
+  const words = text.split(/\s+/);
 
   const ngrams = {};
 

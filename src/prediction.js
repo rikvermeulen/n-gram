@@ -1,51 +1,69 @@
 // Functie om het meest waarschijnlijke volgende woord te retourneren
-function mostLikelyNextWord(word, ngrams, n) {
+function mostLikelyNextWord(word, ngrams, maxRepetition = 2) {
   let maxCount = 0;
-  let nextWord = "";
+  let nextWords = [];
 
-  // Loop door alle n-grams en kijk of het eerste woord overeenkomt met het woord dat we meegeven
-  for (const ngram in ngrams) {
-    // Split het n-gram op in woorden
-    const words = ngram.split(" ");
+  const lastWord = word.split(" ").slice(-1).pop();
+  let consecutiveRepetition = 0;
 
-    // Controleer of het aantal woorden in het n-gram overeenkomt met de opgegeven n
-    if (words.length === n) {
-      // Controleer of het eerste woord overeenkomt en of het aantal keer dat het voorkomt groter is dan het huidige maximum
-      if (words[0] === word && ngrams[ngram] > maxCount) {
-        maxCount = ngrams[ngram];
-        nextWord = words[1];
+  // Loop through all n-grams and check if the first word(s) match the given word
+  for (const ngramKey in ngrams) {
+    // Check if the last word matches the first word of the ngram
+    if (ngramKey.startsWith(lastWord)) {
+      const words = ngramKey.split(" ");
+      const n = words.length;
+
+      const lastWord = words.slice(1, n).join(" ");
+
+      if (ngrams[ngramKey] > maxCount && lastWord !== nextWords.join(" ")) {
+        maxCount = ngrams[ngramKey];
+        nextWords = words.slice(1, n);
+        consecutiveRepetition = 1;
+      } else if (lastWord === nextWords.join(" ")) {
+        consecutiveRepetition++;
+      }
+
+      // resets de consecutiveRepetition als het aantal keer dat hetzelfde woord achter elkaar voorkomt groter is dan de maxRepetition
+      if (consecutiveRepetition > maxRepetition) {
+        maxCount = 0;
+        nextWords = [];
       }
     }
   }
 
-  return nextWord;
+  return nextWords.join(" ");
 }
 
 // Functie om een willekeurig volgend woord te kiezen uit de bigrams
-async function randomNextWord(words, ngrams) {
+async function randomNextWord(word, ngrams) {
   const potentialWords = [];
 
-  // Loop door alle ngrams
-  for (const ngram in ngrams) {
-    const ngramWords = ngram.split(" ");
+  // Get the last word of the given word
+  const lastWord = word.split(" ").slice(-1).pop();
 
-    // Controleer of de eerste n-1 woorden overeenkomen met de woorden die we meegeven
-    const match = words.every((word, index) => word === ngramWords[index]);
+  // Loop through all n-grams and check if the first word(s) match the given ngram
+  for (const ngramKey in ngrams) {
+    const words = ngramKey.split(" ");
 
-    // Als de woorden overeenkomen, voeg het laatste woord van het n-gram toe aan de array
-    if (match) {
-      // Voeg het woord meerdere keren toe aan de array, afhankelijk van het aantal keer dat het voorkomt
-      for (let i = 0; i < ngrams[ngram]; i++) {
-        potentialWords.push(ngramWords[ngramWords.length - 1]);
+    // Get the number of words in the ngram
+    const n = words.length;
+
+    // Check if the first n words match the given ngram
+    if (ngramKey.startsWith(lastWord)) {
+      // Join the remaining words to get the next word(s)
+      const nextWord = words.slice(1, n).join(" ");
+
+      // Add the next word(s) to the array multiple times, depending on the frequency in the corpus
+      for (let i = 0; i < ngrams[ngramKey]; i++) {
+        potentialWords.push(nextWord);
       }
     }
   }
 
-  // Kies een willekeurig woord uit de array
-  const randomIndex = Math.floor(Math.random() * potentialWords.length);
-
-  // Retourneer het gekozen woord
-  return potentialWords[randomIndex];
+  // Choose a random word from the array and return it
+  return potentialWords.length > 0
+    ? potentialWords[Math.floor(Math.random() * potentialWords.length)]
+    : null;
 }
 
 // Functie om een zin te genereren
@@ -54,8 +72,10 @@ async function generateSentence(startWord, maxLength = 10, bigrams) {
   let sentence = currentWord;
 
   try {
+    sentenceLength = 0;
     // Loop door het aantal keer dat we een woord willen genereren
-    for (let i = 0; i < maxLength; i++) {
+    for (let i = 0; sentenceLength < maxLength; i++) {
+      sentenceLength = sentence.split(" ").length;
       // Kies een willekeurig volgend woord
       currentWord = await randomNextWord(currentWord, bigrams);
       // Eindig de zin als er geen volgend woord is
