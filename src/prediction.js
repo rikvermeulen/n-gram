@@ -1,16 +1,20 @@
 // Functie om het meest waarschijnlijke volgende woord te retourneren
-function mostLikelyNextWord(word, bigrams) {
+function mostLikelyNextWord(word, ngrams, n) {
   let maxCount = 0;
   let nextWord = "";
 
-  // Loop door alle bigrams en kijk of het eerste woord overeenkomt met het woord dat we meegeven
-  for (const bigram in bigrams) {
-    // Split de bigram op in twee woorden
-    const [firstWord, secondWord] = bigram.split(" ");
-    // Als het eerste woord overeenkomt, kijk dan of het aantal keer dat het voorkomt groter is dan het huidige maximum
-    if (firstWord === word && bigrams[bigram] > maxCount) {
-      maxCount = bigrams[bigram];
-      nextWord = secondWord;
+  // Loop door alle n-grams en kijk of het eerste woord overeenkomt met het woord dat we meegeven
+  for (const ngram in ngrams) {
+    // Split het n-gram op in woorden
+    const words = ngram.split(" ");
+
+    // Controleer of het aantal woorden in het n-gram overeenkomt met de opgegeven n
+    if (words.length === n) {
+      // Controleer of het eerste woord overeenkomt en of het aantal keer dat het voorkomt groter is dan het huidige maximum
+      if (words[0] === word && ngrams[ngram] > maxCount) {
+        maxCount = ngrams[ngram];
+        nextWord = words[1];
+      }
     }
   }
 
@@ -18,18 +22,21 @@ function mostLikelyNextWord(word, bigrams) {
 }
 
 // Functie om een willekeurig volgend woord te kiezen uit de bigrams
-async function randomNextWord(word, bigrams) {
+async function randomNextWord(words, ngrams) {
   const potentialWords = [];
 
-  // Loop door alle bigrams en kijk of het eerste woord overeenkomt met het woord dat we meegeven
-  for (const bigram in bigrams) {
-    const [firstWord, secondWord] = bigram.split(" ");
+  // Loop door alle ngrams
+  for (const ngram in ngrams) {
+    const ngramWords = ngram.split(" ");
 
-    // Als het eerste woord overeenkomt, voeg het tweede woord dan toe aan de array
-    if (firstWord === word) {
+    // Controleer of de eerste n-1 woorden overeenkomen met de woorden die we meegeven
+    const match = words.every((word, index) => word === ngramWords[index]);
+
+    // Als de woorden overeenkomen, voeg het laatste woord van het n-gram toe aan de array
+    if (match) {
       // Voeg het woord meerdere keren toe aan de array, afhankelijk van het aantal keer dat het voorkomt
-      for (let i = 0; i < bigrams[bigram]; i++) {
-        potentialWords.push(secondWord);
+      for (let i = 0; i < ngrams[ngram]; i++) {
+        potentialWords.push(ngramWords[ngramWords.length - 1]);
       }
     }
   }
